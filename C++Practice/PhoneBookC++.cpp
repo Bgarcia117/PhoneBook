@@ -12,13 +12,13 @@ class Contact {
     public:
         Contact() : firstName("No"), lastName("Name"), phoneNum("123-456-7890") {} // Default constructor
         // Parameterized constructor passes by reference
-        Contact(ContactVector &vectorName, const std::string &_newFirstName, const std::string &_newLastName, const std::string &_newPhoneNum)
-            : firstName(_newFirstName), lastName(_newLastName), phoneNum(_newPhoneNum) { 
-            vectorName.push_back(*this); // Adds new contact obj to vector
-        }
+        Contact(const std::string &_newFirstName, const std::string &_newLastName, const std::string &_newPhoneNum)
+            : firstName(_newFirstName), lastName(_newLastName), phoneNum(_newPhoneNum) {}
+
         std::string getFirstName() const { return firstName; }
         std::string getLastName() const { return lastName; }
         std::string getPhoneNum() const { return phoneNum; }
+
         void setFirstName(std::string &newFirstName) { firstName = newFirstName; }
         void setLastName(std::string &newLastName) { lastName = newLastName; }
         void setPhoneNum(std::string &newPhoneNum) { phoneNum = newPhoneNum; }
@@ -56,7 +56,8 @@ int main() {
                 std::cin >> newPhoneNum;
                 std::cout << "----------------------------------" << std::endl;
 
-                Contact(friends, newFirstName, newLastName, newPhoneNum);
+                // Inserts and obj at the end of the vector. Type is inferred by declaration of "friends" vector therefore it not necessary to include type (Contact)
+                friends.emplace_back(newFirstName, newLastName, newPhoneNum);
 
                 lastIndexAdded++;
 
@@ -72,7 +73,7 @@ int main() {
                     break;
                 }
                 else {
-                    searchForContact(friends, lastIndexAdded);
+                    // searchForContact(friends, lastIndexAdded);
                     break;
                 }
                 
@@ -105,13 +106,3 @@ int searchForContact(ContactVector vectorName, int _lastIndexAdded) {
         }
     }
 }
-
-/*
-void deleteContact(std::string firstNameSearch, std::string lastNameSearch, int _lastIndexAdded) {
-    for (int i = 0; i <= _lastIndexAdded; i++) {
-        if (firstNameSearch == )
-    }
-}
-*/
-
-
