@@ -22,21 +22,26 @@ class Contact {
         void setFirstName(std::string &newFirstName) { firstName = newFirstName; }
         void setLastName(std::string &newLastName) { lastName = newLastName; }
         void setPhoneNum(std::string &newPhoneNum) { phoneNum = newPhoneNum; }
-        void 
 };
+
+// Function prototypes for functions defined after main function
+int searchForContact(ContactVector, int);
 
 int main() {
     ContactVector friends;
-    int selection = 0; // Create error handling for this
+    int selection = 0;
     int lastIndexAdded = -1;
-    std::string newFirstName, newLastName, newPhoneNum;
+    std::string newFirstName, newLastName, newPhoneNum; // Add error handling for name search
 
-    while (selection != 3) {
+    while (selection != 6) {
         std::cout << "Phonebook App" << std::endl;
         std::cout << "----------------------------------" << std::endl;
         std::cout << "1) Add Friend" << std::endl;
         std::cout << "2) Delete Friend" << std::endl;
-        std::cout << "3) Close Program" << std::endl;
+        std::cout << "3) Find Number" << std::endl;
+        std::cout << "4) Sort and display contact" << std::endl;
+        std::cout << "5) Clear Contacts" << std::endl;
+        std::cout << "6) Close Program" << std::endl;
         std::cout << "Make a selection (1-3): " << std::endl;
         std::cin >> selection;
 
@@ -49,12 +54,12 @@ int main() {
                 std::cin >> newLastName;
                 std::cout << "Enter a phone number: " << std::endl;
                 std::cin >> newPhoneNum;
+                std::cout << "----------------------------------" << std::endl;
 
                 Contact(friends, newFirstName, newLastName, newPhoneNum);
 
                 lastIndexAdded++;
 
-                std::cout << "----------------------------------" << std::endl;
                 std::cout << "Current Index: " << lastIndexAdded << std::endl;
                 std::cout << "First Name: " << friends.at(lastIndexAdded).getFirstName() << std::endl;
                 std::cout << "Last Name: " << friends.at(lastIndexAdded).getLastName() << std::endl;
@@ -62,7 +67,15 @@ int main() {
                 std::cout << "----------------------------------" << std::endl;
                 break;
             case 2:
-                break;
+                if (lastIndexAdded < 0) {
+                    std::cout << "There are no contacts saved." << std::endl;
+                    break;
+                }
+                else {
+                    searchForContact(friends, lastIndexAdded);
+                    break;
+                }
+                
             case 3:
                 break;
             default:
@@ -73,5 +86,32 @@ int main() {
     
     
 }
+
+int searchForContact(ContactVector vectorName, int _lastIndexAdded) {
+    std::string firstNameSearch, lastNameSearch;
+    std::cout << "Enter a first name: " << std::endl;
+    std::cin >> firstNameSearch;
+    std::cout << "Enter a last name: " << std::endl;
+    std::cin >> lastNameSearch;
+
+    for (int i = 0; i <= _lastIndexAdded; i++) {
+        if (firstNameSearch == vectorName.at(i)) {
+            std::cout << i << std::endl;
+            return i;
+        }
+        else {
+            std::cout << firstNameSearch << " " << lastNameSearch << " was not found." << std::endl;
+            return;
+        }
+    }
+}
+
+/*
+void deleteContact(std::string firstNameSearch, std::string lastNameSearch, int _lastIndexAdded) {
+    for (int i = 0; i <= _lastIndexAdded; i++) {
+        if (firstNameSearch == )
+    }
+}
+*/
 
 
