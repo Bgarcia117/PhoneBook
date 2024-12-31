@@ -26,33 +26,33 @@ class Contact {
 };
 
 // Function prototypes for functions defined after main function
-int searchForContact(ContactVector, int);
+int getContactIndex(ContactVector, int);
 void deleteContact(ContactVector, int);
 void findContact(ContactVector, int);
 void displayContacts(ContactVector, int);
-void eraseAllContacts(ContactVector, int);
+
 
 int main() {
-    ContactVector friends;
-    int selection = 0;
-    int lastIndexAdded = -1;
-    std::string newFirstName, newLastName, newPhoneNum; // Add error handling for name search
+    ContactVector friends; // Instantiates a Contact vector using its alias
+    int selection = 0; // Stores user selection on menu
+    int lastIndexAdded = -1; // Tracks index of the person added last
+    std::string newFirstName, newLastName, newPhoneNum;
 
     while (selection != 6) {
         std::cout << "----------------------------------" << std::endl;
         std::cout << "Phonebook" << std::endl;
         std::cout << "----------------------------------" << std::endl;
-        std::cout << "1) Add Friend" << std::endl;
-        std::cout << "2) Delete Friend" << std::endl;
+        std::cout << "1) Add Contact" << std::endl;
+        std::cout << "2) Delete Contact" << std::endl;
         std::cout << "3) Find Number" << std::endl;
-        std::cout << "4) Display contacts" << std::endl;
+        std::cout << "4) Display Contacts" << std::endl;
         std::cout << "5) Erase All Contacts" << std::endl;
         std::cout << "6) Close Program" << std::endl;
         std::cout << "Make a selection (1-6): " << std::endl;
         std::cin >> selection;
 
         switch (selection) {
-            case 1:
+            case 1: // Adds a contact obj to the vector
                 std::cout << "----------------------------------" << std::endl;
                 std::cout << "Enter a first name: " << std::endl;
                 std::cin >> newFirstName;
@@ -62,7 +62,7 @@ int main() {
                 std::cin >> newPhoneNum;
                 std::cout << "----------------------------------" << std::endl;
 
-                // Inserts and obj at the end of the vector and allows the paramaterized constructor to be invoked.
+                // Inserts a contact obj at the end of the vector and allows the paramaterized constructor to be invoked.
                 // Type is inferred by declaration of "friends" vector so it is not necessary to include type (Contact)
                 friends.emplace_back(newFirstName, newLastName, newPhoneNum);
 
@@ -73,29 +73,29 @@ int main() {
                 std::cout << "Last Name: " << friends.at(lastIndexAdded).getLastName() << std::endl;
                 std::cout << "Phone Number: " << friends.at(lastIndexAdded).getPhoneNum() << std::endl;
                 break;
-            case 2:
+            case 2: // Deletes contact objs from the vector
                 if (lastIndexAdded < 0) {
                     std::cout << "There are no contacts saved." << std::endl;
                     break;
                 }
                 else {
-                    deleteContact(friends, searchForContact(friends, lastIndexAdded));
+                    deleteContact(friends, getContactIndex(friends, lastIndexAdded));
                     lastIndexAdded -= 1;
                     break;
                 }
                 
-            case 3:
+            case 3: // Finds and displays contact info 
                 if (lastIndexAdded < 0) {
                     std::cout << "----------------------------------" << std::endl;
                     std::cout << "There are no contacts saved." << std::endl;
                     break;
                 }
                 else {
-                    findContact(friends, searchForContact(friends, lastIndexAdded));
+                    findContact(friends, getContactIndex(friends, lastIndexAdded));
                     break;
                 }
 
-            case 4:
+            case 4: // Displays Contacts
                 if (lastIndexAdded < 0) {
                     std::cout << "----------------------------------" << std::endl;
                     std::cout << "There are no contacts saved." << std::endl;
@@ -105,8 +105,11 @@ int main() {
                     displayContacts(friends, lastIndexAdded);
                     break;
                 }
-
-
+            case 5: // Erases all contact objs from vector
+                friends.clear();
+                lastIndexAdded = -1;
+                std::cout << "All contacts were successfully deleted!" << std::endl;
+                break;
 
             default:
                 std::cout << "Please enter a valid selection: " << std::endl;
@@ -114,7 +117,7 @@ int main() {
     }
 }
 
-int searchForContact(ContactVector vectorName, int _lastIndexAdded) {
+int getContactIndex(ContactVector vectorName, int _lastIndexAdded) {
     std::string firstNameSearch, lastNameSearch;
     std::cout << "Enter a first name: " << std::endl;
     std::cin >> firstNameSearch;
@@ -124,7 +127,7 @@ int searchForContact(ContactVector vectorName, int _lastIndexAdded) {
     for (int i = 0; i <= _lastIndexAdded; i++) {
         if (firstNameSearch == vectorName.at(i).getFirstName() && 
             lastNameSearch == vectorName.at(i).getLastName()) {
-            return i;
+            return i; // Returns index of the contact info
         }
         else {
             std::cout << firstNameSearch << " " << lastNameSearch << " was not found." << std::endl;
@@ -134,7 +137,7 @@ int searchForContact(ContactVector vectorName, int _lastIndexAdded) {
 }
 
 void deleteContact(ContactVector vectorName, int nameIndex) {
-    vectorName.erase(vectorName.begin() + nameIndex);
+    vectorName.erase(vectorName.begin() + nameIndex); // Removes contact from vector
     std::cout << "Name was deleted!" << std::endl;
 }
 
@@ -152,8 +155,4 @@ void displayContacts(ContactVector vectorName, int _lastIndexAdded) {
         std::cout << "Last Name: " << vectorName.at(i).getLastName() << std::endl;
         std::cout << "Phone Number: " << vectorName.at(i).getPhoneNum() << std::endl;
     }
-}
-
-void eraseAllContacts(ContactVector vectorName, int _lastIndexAdded) {
-
 }
